@@ -1,23 +1,19 @@
-def leer_datos(fichero):
+import statistics
+
+def leer_datos(nombre_archivo):
     """Lee números enteros de un fichero, uno por línea."""
     numeros = []
-    try:
-        with open(fichero, 'r') as f:
+
+    with open(nombre_archivo, 'r') as f:    
             for linea in f:
-                linea = linea.strip()
-                if linea:  # Ignora líneas vacías
-                    numeros.append(int(linea))
-    except FileNotFoundError:
-        print(f"Error: El fichero '{fichero}' no existe.")
-    except ValueError as e:
-        print(f"Error de conversión: {e}")
+                numero = int(linea.strip())  # Quita espacios y convierte a entero
+                numeros.append(numero) #añade a la lista numeros
+
     return numeros
 
 def calcular_estadisticas(numeros):
     """Calcula la media y la mediana de una lista de números."""
-    if not numeros:
-        return None, None  # Evita dividir por cero si la lista está vacía
-
+    
     # Calcular la media
     media = sum(numeros) / len(numeros)
 
@@ -25,18 +21,26 @@ def calcular_estadisticas(numeros):
     numeros_ordenados = sorted(numeros)
     n = len(numeros_ordenados)
     mitad = n // 2
-
-    if n % 2 == 0:
-        mediana = (numeros_ordenados[mitad - 1] + numeros_ordenados[mitad]) / 2
-    else:
+    if n % 2 == 1:
+        # Si la cantidad es impar, la mediana es el elemento del medio
         mediana = numeros_ordenados[mitad]
+    else:
+        # Si es par, la mediana es el promedio de los dos elementos centrales
+        mediana = (numeros_ordenados[mitad - 1] + numeros_ordenados[mitad]) / 2
 
     return media, mediana
 
+
 if __name__ == "__main__":
-    nombre_fichero = "datos.txt"
-    lista_numeros = leer_datos(nombre_fichero)
+   
+    lista_numeros = leer_datos("datos.txt")
     print("Números leídos del fichero:")
     print(lista_numeros)
+
+    media, mediana=calcular_estadisticas(lista_numeros)
+    print("Media:", media)
+    print("Mediana:",mediana)
+          
+
 
 
